@@ -20,6 +20,7 @@ public class GameBean implements Serializable {
 	private CPU cpu = new CPU();
 	private Tabuleiro tabuleiro = new Tabuleiro();
 	//Nova modificação
+	//modificação
 	
 	//Métodos de gerenciamento do jogo
 	
