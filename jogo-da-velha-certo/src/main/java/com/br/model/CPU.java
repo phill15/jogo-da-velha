@@ -2,7 +2,9 @@ package com.br.model;
 
 import java.util.Random;
 
-public class CPU {
+import com.br.interfacejogo.InterfaceJogo;
+
+public class CPU implements InterfaceJogo{
 	
 	//Atributos da classe
 	private String dificuldade;
@@ -10,19 +12,67 @@ public class CPU {
 	private String escolha;
 	
 	//Método de jogada da máquina
-	public String [] [] fazerJogada(String [] [] tabuleiro){
+	public String [] [] fazerJogada(String [] [] tabuleiro, String dificuldade){
+		if (dificuldade.equals("facil")) {
+			tabuleiro = jogadaFacil(tabuleiro);
+		} else if (dificuldade.equals("medio")) {
+			tabuleiro = jogadaMedia(tabuleiro);
+		}
+	}
+	
+	//Jogada da Máquina se escolhido o nivel fácil
+	private String [] [] jogadaFacil (String [] [] tabuleiro){
+		boolean inserir = false;
+		while (inserir == false) {
+			for (int i = 0; i < 3; i++) {
+				for (int j = 0; j < 3; j++) {
+					if (tabuleiro [i] [j].isEmpty()) {
+						tabuleiro [i] [j] = this.escolha;
+						inserir = true;
+						break;
+					} else {
+						continue;
+					}
+				}
+			}
+		}
+		return tabuleiro;
+	}
+	
+	//Jogada da máquina se for escolhido o nivel médio
+	private String [] [] jogadaMedia(String [] [] tabuleiro){
 		Random gerador = new Random();
 		boolean inserir = false;
-		this.escolha = "circulo";
 		while (inserir == false) {
-			int linha = gerador.nextInt(2);
-			int coluna = gerador.nextInt(2);
-			if (tabuleiro [linha] [coluna] == null || tabuleiro [linha] [coluna].isEmpty()) {
-				tabuleiro [linha] [coluna] = escolha;
-				System.out.println("A CPU escolheu a posição " + (linha + 1) + "X" + (coluna + 1) + " para marcar um " + this.escolha);
-				inserir = true;
+			int casasDisponiveis = 0;
+			for (int i = 0; i < 3; i++) {
+				for (int j = 0; j < 3; j++) {
+					if (tabuleiro [i] [j].isEmpty()) {
+						casasDisponiveis ++;
+					}
+				}
+			}
+			if (casasDisponiveis > 4) {
+				int linha = gerador.nextInt(2);
+				int coluna = gerador.nextInt(2);
+				if (tabuleiro [linha] [coluna].isEmpty()) {
+					tabuleiro [linha] [coluna] = escolha;
+					System.out.println("A CPU escolheu a posição " + (linha + 1) + "X" + (coluna + 1) + " para marcar um " + this.escolha);
+					inserir = true;
+				} else {
+					System.out.println("A CPU ainda está escolhendo sua jogada!");
+				}
 			} else {
-				System.out.println("Campo preenchido! Faça outra escolha");
+				for (int i = 0; i < 3; i++) {
+					for (int j = 0; j < 3; j++) {
+						if (tabuleiro [i] [j].isEmpty()) {
+							tabuleiro [i] [j] = this.escolha;
+							inserir = true;
+						} else {
+							continue;
+						}
+					}
+				}
 			}
 		}
 		return tabuleiro;
@@ -84,5 +134,4 @@ public class CPU {
 		return true;
 	}
 	
-
 }
