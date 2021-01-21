@@ -1,6 +1,7 @@
 package com.br.testes;
 
 import org.junit.jupiter.api.Test;
+import javax.swing.JOptionPane;
 
 import com.br.model.CPU;
 import com.br.model.Jogador;
